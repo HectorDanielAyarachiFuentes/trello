@@ -1,0 +1,339 @@
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden; /* sin scroll en la página */
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  height: 100vh;
+  color: #e8e8f0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   HEADER  (compacto)
+   ============================================================ */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.6rem;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Circular avatar */
+.avatar-wrapper {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  position: relative;
+  z-index: 1;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 3px rgba(130, 80, 255, 0.45),
+              0 0 14px rgba(130, 80, 255, 0.3);
+}
+
+/* Spinning gradient ring */
+.avatar-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #a78bfa, #60a5fa, #f472b6, #a78bfa
+  );
+  z-index: 0;
+  animation: spin 4s linear infinite;
+  opacity: 0.75;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.header-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #c4b5fd, #93c5fd, #f9a8d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.header-sub {
+  font-size: 0.78rem;
+  color: rgba(200, 200, 230, 0.65);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   TABS NAV  (en el header)
+   ============================================================ */
+.tabs-nav {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.2rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(200, 200, 230, 0.55);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+  letter-spacing: 0.02em;
+}
+
+.tab-btn:hover {
+  color: #e0d9ff;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.tab-btn.active {
+  color: #c4b5fd;
+  background: rgba(167, 139, 250, 0.15);
+  border-color: rgba(167, 139, 250, 0.4);
+}
+
+.tab-icon {
+  font-size: 1rem;
+}
+
+/* ============================================================
+   CONTENT & PANELS  – ocupa TODO el espacio restante
+   ============================================================ */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* el iframe interno maneja su propio scroll */
+  padding: 0.75rem;
+}
+
+.panel {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease;
+}
+
+.panel.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.panel-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  padding: 0.75rem;
+  overflow: hidden;
+}
+
+.panel-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #d8b4fe;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   EMBED WRAPPERS  – llenan el panel completo
+   ============================================================ */
+.embed-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  min-height: 0; /* clave para que flex funcione */
+}
+
+.embed-frame {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.video-wrapper {
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* No crecer infinitamente: se adapta al contenido */
+  flex: 1;
+  min-height: 0;
+}
+
+.video-player {
+  /* header ~60px + content padding 2×12px + panel padding 2×12px + margen inferior 20px */
+  max-width: 100%;
+  max-height: calc(100vh - 160px);
+  width: auto;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* botón descarga PDF */
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 1.1rem;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 7px;
+  align-self: flex-start;
+  flex-shrink: 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 3px 10px rgba(124, 58, 237, 0.4);
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(124, 58, 237, 0.6);
+}
+
+/* ============================================================
+   TRELLO LINK CARD
+   ============================================================ */
+.trello-panel-inner {
+  align-items: center;
+  justify-content: center;
+}
+
+.trello-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 2.5rem 3.5rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  max-width: 440px;
+  width: 100%;
+}
+
+.trello-logo {
+  font-size: 3.2rem;
+  line-height: 1;
+}
+
+.trello-card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #93c5fd, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.trello-card-sub {
+  font-size: 0.88rem;
+  color: rgba(200, 200, 230, 0.6);
+  font-weight: 300;
+}
+
+.trello-open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  padding: 0.7rem 1.8rem;
+  background: linear-gradient(135deg, #0052cc, #0079bf);
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 18px rgba(0, 82, 204, 0.45);
+  letter-spacing: 0.02em;
+}
+
+.trello-open-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 82, 204, 0.65);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 600px) {
+  .header { padding: 0.5rem 1rem; }
+  .header-title { font-size: 1rem; }
+  .tab-btn { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+  .content { padding: 0.5rem; }
+  .avatar-wrapper, .avatar { width: 44px; height: 44px; }
+}
