@@ -1191,3 +1191,293 @@ body {
   }
 }
 
+/* ============================================================
+   ACADEMIC REFINEMENT
+   Keeps the Trello and author areas expressive while prioritizing study content.
+   ============================================================ */
+:root {
+  --bg-dark: #edf2f7;
+  --bg-mid: #ffffff;
+  --bg-deep: #dfe8ef;
+  --panel-bg: #ffffff;
+  --panel-border: #d6e0e8;
+  --glass-bg: #ffffff;
+  --accent-purple: #087e8b;
+  --accent-cyan: #0f9d8a;
+  --accent-pink: #b33b5e;
+  --accent-blue: #247ba0;
+  --accent-emerald: #25855a;
+  --text-primary: #17283c;
+  --text-secondary: #52677b;
+  --text-muted: #718395;
+  --shadow-sm: 0 2px 8px rgba(23, 40, 60, 0.08);
+  --shadow-md: 0 8px 24px rgba(23, 40, 60, 0.1);
+  --shadow-lg: 0 18px 42px rgba(23, 40, 60, 0.14);
+  --shadow-glow: 0 0 0 transparent;
+}
+
+html, body {
+  background: #edf2f7;
+  color: var(--text-primary);
+}
+
+.header {
+  padding: 0.85rem 1.75rem;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom-color: #d6e0e8;
+  box-shadow: 0 2px 12px rgba(23, 40, 60, 0.08);
+}
+
+.avatar-wrapper:hover { transform: scale(1.04); }
+
+.avatar-ring {
+  background: #0f9d8a;
+  animation: none;
+  opacity: 1;
+}
+
+.avatar { border-color: #ffffff; }
+
+.header-info { gap: 0.2rem; }
+
+.header-eyebrow {
+  color: #087e8b;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.header-title {
+  color: #17283c;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  letter-spacing: 0;
+}
+
+.header-sub { color: #60758a; }
+
+.tabs-nav {
+  background: #f3f6f8;
+  border-color: #dce5eb;
+  border-radius: 8px;
+}
+
+.tab-btn { color: #52677b; border-radius: 6px; }
+.tab-btn:hover { color: #17283c; background: #e8f0f2; }
+.tab-btn.active {
+  color: #075d67;
+  background: #d9f0ee;
+  border-color: #98d3cd;
+  box-shadow: none;
+}
+
+.content { padding-top: 1rem; }
+
+.panel-inner {
+  background: #ffffff;
+  border-color: #d6e0e8;
+  border-radius: 10px;
+  box-shadow: var(--shadow-md);
+}
+
+.panel-tag {
+  color: #3f5870;
+  background: #f3f6f8;
+  border-color: #dce5eb;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+}
+
+.tag-pulse { background: #0f9d8a; box-shadow: none; animation: none; }
+.tag-pulse--video { background: #b33b5e; box-shadow: none; }
+
+.download-btn {
+  background: #087e8b;
+  box-shadow: none;
+  border-radius: 6px;
+}
+.download-btn:hover { background: #066974; box-shadow: none; }
+
+.embed-wrapper { border-color: #cbd8e1; background: #f5f7f9; box-shadow: none; }
+.video-wrapper { background: #17283c; }
+.video-play-overlay {
+  background: rgba(23, 40, 60, 0.78);
+  border: 0;
+  color: #ffffff;
+  font-family: inherit;
+  text-align: center;
+}
+.play-btn-circle { background: #0f9d8a; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28); }
+.play-btn-pulse { animation: none; border-color: rgba(255, 255, 255, 0.45); }
+
+.trello-panel-inner { background: #f5f8fa; }
+
+.about-overlay { background: rgba(23, 40, 60, 0.72); }
+.about-modal {
+  background: #17283c;
+  border-color: #3c5870;
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+}
+.about-avatar-ring { animation: none; background: #b33b5e; }
+.about-name { color: #ffffff; background: none; -webkit-text-fill-color: currentColor; }
+.about-codepen-btn { background: #0f9d8a; border-color: #0f9d8a; color: #ffffff; box-shadow: none; }
+.about-codepen-btn:hover { background: #087e8b; box-shadow: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .header-eyebrow { font-size: 0.58rem; }
+  .header { padding-top: 0.75rem; }
+}
+
+/* The media and Trello panels keep their personality without competing with content. */
+.video-play-overlay {
+  inset: auto 1rem 1rem auto;
+  width: 54px;
+  height: 54px;
+  min-width: 54px;
+  min-height: 54px;
+  padding: 0;
+  gap: 0;
+  border-radius: 50%;
+  background: #087e8b;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.32);
+}
+
+.video-play-overlay:hover { background: #066974; }
+
+.play-btn-circle {
+  width: 54px;
+  height: 54px;
+  padding-left: 2px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.play-btn-circle svg { width: 23px; height: 23px; }
+.play-btn-pulse, .play-overlay-text, .play-overlay-sub { display: none; }
+
+.retro-border-wrap {
+  padding: 1px;
+  background: #d6e0e8;
+  border-radius: 10px;
+  box-shadow: var(--shadow-md);
+  animation: none;
+}
+
+.retro-border-wrap:hover { transform: none; }
+.retro-scanlines, .retro-corner, .retro-vhs-label { display: none; }
+
+.trello-card {
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background: #ffffff;
+  border-radius: 9px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.retro-photo-frame {
+  width: 76px;
+  height: 76px;
+  padding: 3px;
+  background: #d9f0ee;
+  border: 1px solid #98d3cd;
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+.trello-photo {
+  border-radius: 50%;
+  filter: saturate(0.78) contrast(1.02);
+}
+
+.trello-card-title {
+  color: #17283c;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  letter-spacing: 0;
+}
+
+.trello-card-sub { color: #60758a; font-weight: 400; }
+
+.trello-open-btn {
+  margin-top: 0.2rem;
+  padding: 0.62rem 1rem;
+  background: #087e8b;
+  border-radius: 6px;
+  box-shadow: none;
+  letter-spacing: 0;
+}
+
+.trello-open-btn:hover {
+  transform: translateY(-1px);
+  background: #066974;
+  box-shadow: none;
+}
+
+@media (max-width: 720px) {
+  .trello-card { gap: 1rem; padding: 1.4rem 1.2rem; }
+  .retro-photo-frame { width: 68px; height: 68px; }
+}
+
+/* Native video controls already provide playback, volume and fullscreen. */
+.video-play-overlay { display: none !important; }
+
+/* Course identity replaces the decorative avatar in the academic header. */
+.course-mark {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  border: 1px solid #087e8b;
+  border-radius: 8px;
+  background: #087e8b;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  box-shadow: 0 3px 8px rgba(8, 126, 139, 0.18);
+}
+
+.course-mark--mascot {
+  padding: 3px;
+  overflow: hidden;
+  background: #ffffff;
+  border-color: #98d3cd;
+}
+
+.course-mark--mascot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.92) contrast(1.03);
+}
+
+.header-eyebrow {
+  color: #486478;
+  font-size: 0.61rem;
+  font-weight: 650;
+  letter-spacing: 0.075em;
+}
+
+.header-title { font-size: clamp(1.08rem, 2.2vw, 1.28rem); }
+
+@media (max-width: 440px) {
+  .course-mark { width: 40px; height: 40px; flex-basis: 40px; font-size: 0.68rem; }
+  .header-eyebrow { font-size: 0.52rem; }
+}

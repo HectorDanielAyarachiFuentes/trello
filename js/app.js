@@ -5,6 +5,7 @@
 const TABS = ['pdf', 'video', 'trello'];
 
 let isPipManualClosed = false;
+let aboutTrigger = null;
 
 /**
  * Switches the active tab and its corresponding panel.
@@ -101,9 +102,14 @@ function closePip() {
 
 function openAbout() {
   const overlay = document.getElementById('about-overlay');
+  const modal = document.getElementById('about-modal');
   if (!overlay) return;
 
+  aboutTrigger = document.activeElement;
   overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('dialog-open');
+  if (modal) modal.focus();
 
   // Play audio on opening modal
   const audio = document.getElementById('about-audio');
@@ -126,6 +132,8 @@ function closeAbout() {
   if (!overlay) return;
 
   overlay.classList.remove('open');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('dialog-open');
 
   // Pause audio on close
   const audio = document.getElementById('about-audio');
@@ -134,6 +142,11 @@ function closeAbout() {
     audio.currentTime = 0;
   }
   syncAudioUI(false);
+
+  if (aboutTrigger && typeof aboutTrigger.focus === 'function') {
+    aboutTrigger.focus();
+  }
+  aboutTrigger = null;
 }
 
 function closeAboutOutside(event) {
@@ -190,13 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Main video player & interactive play overlay
   const video = document.getElementById('main-video');
-  const videoOverlay = document.getElementById('video-play-overlay');
   const panelVideo = document.getElementById('panel-video');
 
-  if (video && videoOverlay) {
+  if (video) {
     video.addEventListener('play', () => {
       isPipManualClosed = false;
-      videoOverlay.classList.add('hidden');
 
       // Si se da play mientras estamos en otra pestaña (por ej. en PiP), asegurar que PiP esté activo
       const activeTab = document.querySelector('.tab-btn.active');
@@ -205,12 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    video.addEventListener('pause', () => {
-      videoOverlay.classList.remove('hidden');
-    });
-
     video.addEventListener('ended', () => {
-      videoOverlay.classList.remove('hidden');
       if (panelVideo) {
         panelVideo.classList.remove('pip-active');
       }
@@ -224,17 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ============================================================
    MAIN VIDEO CONTROLLER
    ============================================================ */
-function toggleMainVideo() {
-  const video = document.getElementById('main-video');
-  if (!video) return;
-
-  if (video.paused) {
-    video.play();
-  } else {
-    video.pause();
-  }
-}
-
 /* ============================================================
    DRAGGABLE PIP FUNCTIONALITY
    ============================================================ */
@@ -350,7 +345,8 @@ function initDraggablePip() {
    ============================================================ */
 document.addEventListener('keydown', (e) => {
   // ESC to close modal
-  if (e.key === 'Escape') {
+  const overlay = document.getElementById('about-overlay');
+  if (e.key === 'Escape' && overlay && overlay.classList.contains('open')) {
     closeAbout();
     return;
   }
@@ -371,4 +367,3 @@ document.addEventListener('keydown', (e) => {
     }
   }
 });
-

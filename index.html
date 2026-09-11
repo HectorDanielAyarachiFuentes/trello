@@ -18,12 +18,12 @@
   <header class="header">
     <div class="header-top">
       <div class="header-left">
-        <div class="avatar-wrapper" onclick="openAbout()" title="Conocer al autor" role="button" tabindex="0">
-          <img src="assets/img/Dulce 3.jpg" alt="Dulce" class="avatar" />
-          <div class="avatar-ring"></div>
+        <div class="course-mark course-mark--mascot" role="img" aria-label="Dulce, mascota del espacio de aprendizaje">
+          <img src="assets/img/Dulce 3.jpg" alt="" />
         </div>
         <div class="header-info">
-          <h1 class="header-title">TIG – Gestión Académica</h1>
+          <p class="header-eyebrow">TECNOLOGIA DE LA INFORMACION PARA LA GESTION</p>
+          <h1 class="header-title">Gesti&oacute;n Acad&eacute;mica</h1>
           <p class="header-sub">Ciclo de Consignas &amp; CURZAS</p>
         </div>
       </div>
@@ -53,8 +53,8 @@
   </header>
 
   <!-- ===== ABOUT MODAL ===== -->
-  <div class="about-overlay" id="about-overlay" onclick="closeAboutOutside(event)">
-    <div class="about-modal" id="about-modal">
+  <div class="about-overlay" id="about-overlay" onclick="closeAboutOutside(event)" aria-hidden="true">
+    <div class="about-modal" id="about-modal" role="dialog" aria-modal="true" aria-label="Sobre el autor" tabindex="-1">
       <button class="about-close" onclick="closeAbout()" aria-label="Cerrar">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -104,7 +104,7 @@
   </div>
 
   <!-- Audio oculto -->
-  <audio id="about-audio" src="assets/about/Perrito Payaso en la Silla.mp3" preload="auto"></audio>
+  <audio id="about-audio" src="assets/about/Perrito Payaso en la Silla.mp3" preload="metadata"></audio>
 
   <!-- ===== CONTENT PANELS ===== -->
   <main class="content">
@@ -168,12 +168,12 @@
             </div>
           </div>
 
-          <video id="main-video" controls playsinline preload="auto" class="embed-frame video-player">
+          <video id="main-video" controls playsinline preload="metadata" class="embed-frame video-player">
             <source src="assets/media/Actividad 5 - Video Explicativo Trello.mp4" type="video/mp4" />
             Tu navegador no soporta la reproducción de video.
           </video>
           <!-- Botón Gigante de Reproducción para máxima claridad de UX -->
-          <div class="video-play-overlay" id="video-play-overlay" onclick="toggleMainVideo()" role="button" tabindex="0" aria-label="Reproducir video explicativo">
+          <button class="video-play-overlay" id="video-play-overlay" type="button" onclick="toggleMainVideo()" aria-label="Reproducir video explicativo">
             <div class="play-btn-circle">
               <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="currentColor">
                 <polygon points="7 4 20 12 7 20 7 4"/>
@@ -182,13 +182,13 @@
             </div>
             <span class="play-overlay-text">Reproducir Video Explicativo</span>
             <span class="play-overlay-sub">Actividad 5 · Duración 3:36 min</span>
-          </div>
+          </button>
         </div>
       </div>
     </section>
 
     <!-- Trello Panel -->
-    <section class="panel" id="panel-trello" role="tabpanel">
+    <section class="panel" id="panel-trello" role="tabpanel" aria-labelledby="tab-trello">
       <div class="panel-inner trello-panel-inner">
         <!-- Retro 80s neon border wrapper -->
         <div class="retro-border-wrap">
