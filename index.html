@@ -28,16 +28,66 @@
     <!-- ===== TABS NAV ===== -->
     <nav class="tabs-nav" role="tablist">
       <button class="tab-btn active" id="tab-pdf"    role="tab" aria-selected="true"  onclick="switchTab('pdf')">
-        <span class="tab-icon">📄</span> PDF
+        <span class="tab-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+        </span> PDF
       </button>
       <button class="tab-btn"        id="tab-video"  role="tab" aria-selected="false" onclick="switchTab('video')">
-        <span class="tab-icon">🎬</span> Video
+        <span class="tab-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        </span> Video
       </button>
       <button class="tab-btn"        id="tab-trello" role="tab" aria-selected="false" onclick="switchTab('trello')">
-        <span class="tab-icon">📋</span> Trello
+        <span class="tab-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="11" rx="1"/></svg>
+        </span> Trello
       </button>
     </nav>
+
+    <!-- ===== ABOUT BUTTON ===== -->
+    <button class="about-btn" id="about-btn" onclick="openAbout()" title="Sobre el autor">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
   </header>
+
+  <!-- ===== ABOUT MODAL ===== -->
+  <div class="about-overlay" id="about-overlay" onclick="closeAboutOutside(event)">
+    <div class="about-modal" id="about-modal">
+      <button class="about-close" onclick="closeAbout()" aria-label="Cerrar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <div class="about-avatar-wrap">
+        <img src="assets/about/dulcesad.png" alt="Héctor Daniel" class="about-avatar" />
+        <div class="about-avatar-ring"></div>
+      </div>
+
+      <h2 class="about-name">Héctor Daniel<br>Ayarachi Fuentes</h2>
+      <p class="about-desc">
+        Estudiante apasionado por la tecnología, el diseño web y la gestión académica.
+        Creador de este espacio para organizar consignas y CURZAS.
+      </p>
+
+      <a
+        class="about-codepen-btn"
+        href="https://codepen.io/HectorDanielAyarachiFuentes"
+        target="_blank"
+        rel="noopener noreferrer"
+        id="about-codepen-link"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Ver mis proyectos en CodePen
+      </a>
+
+      <p class="about-footer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Hecho con mucho esfuerzo y café
+      </p>
+    </div>
+  </div>
+
+  <!-- Audio oculto -->
+  <audio id="about-audio" src="assets/about/Perrito Payaso en la Silla.mp3" preload="auto"></audio>
 
   <!-- ===== CONTENT PANELS ===== -->
   <main class="content">
@@ -53,7 +103,8 @@
           ></iframe>
         </div>
         <a class="download-btn" href="assets/docs/Actividad 5 - Organizacion Academica Trello.pdf" download>
-          ⬇️ Descargar PDF
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar PDF
         </a>
       </div>
     </section>
@@ -74,7 +125,18 @@
     <section class="panel" id="panel-trello" role="tabpanel">
       <div class="panel-inner trello-panel-inner">
         <div class="trello-card">
-          <div class="trello-logo">📋</div>
+          <div class="trello-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <defs>
+                <linearGradient id="trello-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#93c5fd"/>
+                  <stop offset="100%" stop-color="#a78bfa"/>
+                </linearGradient>
+              </defs>
+              <rect x="3" y="3" width="7" height="18" rx="1.5" stroke="url(#trello-grad)"/>
+              <rect x="14" y="3" width="7" height="11" rx="1.5" stroke="url(#trello-grad)"/>
+            </svg>
+          </div>
           <h2 class="trello-card-title">TIG – Gestión Académica</h2>
           <p class="trello-card-sub">Ciclo de Consignas &amp; CURZAS</p>
           <a
@@ -83,7 +145,8 @@
             target="_blank"
             rel="noopener noreferrer"
           >
-            Abrir tablero en Trello →
+            Abrir tablero en Trello
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
         </div>
       </div>

@@ -1,5 +1,5 @@
 /**
- * app.js – Tab switching logic
+ * app.js – Tab switching logic + About modal
  */
 
 /**
@@ -34,3 +34,46 @@ function switchTab(name) {
     if (video && !video.paused) video.pause();
   }
 }
+
+/* ============================================================
+   ABOUT MODAL
+   ============================================================ */
+
+function openAbout() {
+  const overlay = document.getElementById('about-overlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // Play the banger 🎵
+  const audio = document.getElementById('about-audio');
+  if (audio) {
+    audio.currentTime = 0;
+    audio.play().catch(() => {/* autoplay blocked, no pasa nada */});
+  }
+}
+
+function closeAbout() {
+  const overlay = document.getElementById('about-overlay');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+
+  // Pause audio on close
+  const audio = document.getElementById('about-audio');
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+}
+
+function closeAboutOutside(event) {
+  // Solo cierra si se clickea el fondo (overlay), no el modal en sí
+  if (event.target === document.getElementById('about-overlay')) {
+    closeAbout();
+  }
+}
+
+// Cerrar con ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeAbout();
+});
+
