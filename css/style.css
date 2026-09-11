@@ -174,46 +174,6 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* Actions in Header (About button) */
-.header-actions {
-  display: flex;
-  align-items: center;
-}
-
-.about-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.45rem 0.85rem;
-  background: rgba(167, 139, 250, 0.12);
-  border: 1px solid rgba(167, 139, 250, 0.35);
-  border-radius: var(--radius-full);
-  color: #e0d9ff;
-  font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s var(--ease-spring);
-  box-shadow: 0 0 12px rgba(167, 139, 250, 0.15);
-}
-
-.about-btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  background: rgba(167, 139, 250, 0.24);
-  border-color: rgba(167, 139, 250, 0.6);
-  box-shadow: 0 0 20px rgba(167, 139, 250, 0.4);
-  color: #fff;
-}
-
-.about-btn:active {
-  transform: scale(0.96);
-}
-
-.about-btn-label {
-  display: inline-block;
-  letter-spacing: 0.02em;
-}
-
 /* Tabs Navigation */
 .tabs-nav {
   display: flex;
