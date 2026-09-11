@@ -4,42 +4,95 @@
 
 const TABS = ['pdf', 'video', 'trello'];
 
+let isPipManualClosed = false;
+
 /**
  * Switches the active tab and its corresponding panel.
+ * Si el video está reproduciéndose, se minimiza a PiP flotante al salir de la pestaña video.
  * @param {string} name - 'pdf' | 'video' | 'trello'
  */
 function switchTab(name) {
   if (!TABS.includes(name)) return;
 
-  // Deactivate all buttons and panels
+  const video = document.getElementById('main-video');
+  const panelVideo = document.getElementById('panel-video');
+
+  // Deactivate all buttons
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.remove('active');
     btn.setAttribute('aria-selected', 'false');
   });
-  document.querySelectorAll('.panel').forEach(panel => {
-    panel.classList.remove('active');
-  });
 
-  // Activate the selected button and panel
+  // Activate selected button
   const btn = document.getElementById('tab-' + name);
-  const panel = document.getElementById('panel-' + name);
-
   if (btn) {
     btn.classList.add('active');
     btn.setAttribute('aria-selected', 'true');
     btn.focus();
   }
-  if (panel) {
-    panel.classList.add('active');
-  }
 
-  // Pause video when switching away from video tab
-  if (name !== 'video') {
-    const video = document.querySelector('.video-player');
-    if (video && !video.paused) {
-      video.pause();
+  // Deactivate other panels
+  document.querySelectorAll('.panel').forEach(panel => {
+    if (panel.id !== 'panel-video') {
+      panel.classList.remove('active');
+    }
+  });
+
+  const selectedPanel = document.getElementById('panel-' + name);
+
+  if (name === 'video') {
+    // Return video to normal full mode
+    if (panelVideo) {
+      panelVideo.classList.remove('pip-active');
+      panelVideo.classList.add('active');
+      // Reset drag styles so it fits back into normal layout
+      panelVideo.style.left = '';
+      panelVideo.style.top = '';
+      panelVideo.style.right = '';
+      panelVideo.style.bottom = '';
+    }
+    isPipManualClosed = false;
+  } else {
+    // Activating PDF or Trello panel
+    if (selectedPanel) {
+      selectedPanel.classList.add('active');
+    }
+
+    if (panelVideo) {
+      panelVideo.classList.remove('active');
+
+      // If video is currently playing, keep it alive in Picture-in-Picture!
+      if (video && !video.paused && !isPipManualClosed) {
+        panelVideo.classList.add('pip-active');
+      } else {
+        panelVideo.classList.remove('pip-active');
+        panelVideo.style.left = '';
+        panelVideo.style.top = '';
+        panelVideo.style.right = '';
+        panelVideo.style.bottom = '';
+      }
     }
   }
+}
+
+/**
+ * Cierra manualmente el mini reproductor PiP y pausa el video
+ */
+function closePip() {
+  const video = document.getElementById('main-video');
+  const panelVideo = document.getElementById('panel-video');
+
+  if (video) {
+    video.pause();
+  }
+  if (panelVideo) {
+    panelVideo.classList.remove('pip-active');
+    panelVideo.style.left = '';
+    panelVideo.style.top = '';
+    panelVideo.style.right = '';
+    panelVideo.style.bottom = '';
+  }
+  isPipManualClosed = true;
 }
 
 /* ============================================================
@@ -138,18 +191,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // Main video player & interactive play overlay
   const video = document.getElementById('main-video');
   const videoOverlay = document.getElementById('video-play-overlay');
+  const panelVideo = document.getElementById('panel-video');
 
   if (video && videoOverlay) {
     video.addEventListener('play', () => {
+      isPipManualClosed = false;
       videoOverlay.classList.add('hidden');
+
+      // Si se da play mientras estamos en otra pestaña (por ej. en PiP), asegurar que PiP esté activo
+      const activeTab = document.querySelector('.tab-btn.active');
+      if (activeTab && activeTab.id !== 'tab-video' && panelVideo) {
+        panelVideo.classList.add('pip-active');
+      }
     });
+
     video.addEventListener('pause', () => {
       videoOverlay.classList.remove('hidden');
     });
+
     video.addEventListener('ended', () => {
       videoOverlay.classList.remove('hidden');
+      if (panelVideo) {
+        panelVideo.classList.remove('pip-active');
+      }
     });
   }
+
+  // Inicializar función de arrastre para el mini-reproductor PiP
+  initDraggablePip();
 });
 
 /* ============================================================
@@ -164,6 +233,116 @@ function toggleMainVideo() {
   } else {
     video.pause();
   }
+}
+
+/* ============================================================
+   DRAGGABLE PIP FUNCTIONALITY
+   ============================================================ */
+let isDraggingPip = false;
+let dragStartX = 0;
+let dragStartY = 0;
+let pipInitialLeft = 0;
+let pipInitialTop = 0;
+
+function initDraggablePip() {
+  const pipHeader = document.getElementById('pip-header');
+  const panelVideo = document.getElementById('panel-video');
+
+  if (!pipHeader || !panelVideo) return;
+
+  function onPointerDown(e) {
+    // Solo arrastrar si estamos en modo PiP
+    if (!panelVideo.classList.contains('pip-active')) return;
+
+    // Ignorar si se hace clic en botones de acción (maximizar / cerrar)
+    if (e.target.closest('.pip-btn')) return;
+
+    isDraggingPip = true;
+
+    const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+
+    dragStartX = clientX;
+    dragStartY = clientY;
+
+    // Obtener la posición visual actual en pantalla
+    const rect = panelVideo.getBoundingClientRect();
+    pipInitialLeft = rect.left;
+    pipInitialTop = rect.top;
+
+    // Cambiar a posicionamiento absoluto por left/top para permitir movimiento libre
+    panelVideo.style.left = `${pipInitialLeft}px`;
+    panelVideo.style.top = `${pipInitialTop}px`;
+    panelVideo.style.right = 'auto';
+    panelVideo.style.bottom = 'auto';
+
+    panelVideo.classList.add('is-dragging');
+
+    document.addEventListener('mousemove', onPointerMove, { passive: false });
+    document.addEventListener('mouseup', onPointerUp);
+    document.addEventListener('touchmove', onPointerMove, { passive: false });
+    document.addEventListener('touchend', onPointerUp);
+  }
+
+  function onPointerMove(e) {
+    if (!isDraggingPip) return;
+
+    const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
+
+    const deltaX = clientX - dragStartX;
+    const deltaY = clientY - dragStartY;
+
+    if (e.cancelable) {
+      e.preventDefault();
+    }
+
+    const rect = panelVideo.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+
+    // Delimitar dentro de la ventana visible con margen de 10px
+    const minLeft = 10;
+    const maxLeft = window.innerWidth - width - 10;
+    const minTop = 10;
+    const maxTop = window.innerHeight - height - 10;
+
+    let newLeft = pipInitialLeft + deltaX;
+    let newTop = pipInitialTop + deltaY;
+
+    newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
+    newTop = Math.max(minTop, Math.min(newTop, maxTop));
+
+    panelVideo.style.left = `${newLeft}px`;
+    panelVideo.style.top = `${newTop}px`;
+  }
+
+  function onPointerUp() {
+    if (!isDraggingPip) return;
+    isDraggingPip = false;
+    panelVideo.classList.remove('is-dragging');
+
+    document.removeEventListener('mousemove', onPointerMove);
+    document.removeEventListener('mouseup', onPointerUp);
+    document.removeEventListener('touchmove', onPointerMove);
+    document.removeEventListener('touchend', onPointerUp);
+  }
+
+  pipHeader.addEventListener('mousedown', onPointerDown);
+  pipHeader.addEventListener('touchstart', onPointerDown, { passive: true });
+
+  // Si la ventana cambia de tamaño, mantener el mini-reproductor visible dentro de la pantalla
+  window.addEventListener('resize', () => {
+    if (panelVideo.classList.contains('pip-active') && panelVideo.style.left) {
+      const rect = panelVideo.getBoundingClientRect();
+      if (rect.right > window.innerWidth) {
+        panelVideo.style.left = `${Math.max(10, window.innerWidth - rect.width - 10)}px`;
+      }
+      if (rect.bottom > window.innerHeight) {
+        panelVideo.style.top = `${Math.max(10, window.innerHeight - rect.height - 10)}px`;
+      }
+    }
+  });
 }
 
 /* ============================================================

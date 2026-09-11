@@ -150,6 +150,31 @@
           </div>
         </div>
         <div class="embed-wrapper video-wrapper" id="video-wrapper">
+          <!-- PiP Mini-Player Header (visible sólo cuando está flotando) -->
+          <div class="pip-header" id="pip-header">
+            <div class="pip-title-wrap">
+              <span class="pip-drag-handle" title="Arrastrar para mover">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/>
+                  <circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/>
+                  <circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/>
+                </svg>
+              </span>
+              <div class="pip-title" onclick="switchTab('video')" title="Clic para maximizar video">
+                <span class="pip-live-dot"></span>
+                <span>Video flotante</span>
+              </div>
+            </div>
+            <div class="pip-actions">
+              <button class="pip-btn pip-expand-btn" onclick="switchTab('video')" title="Maximizar a pantalla completa" aria-label="Maximizar video">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              </button>
+              <button class="pip-btn pip-close-btn" onclick="closePip()" title="Cerrar mini reproductor" aria-label="Cerrar mini reproductor">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          </div>
+
           <video id="main-video" controls playsinline preload="auto" class="embed-frame video-player">
             <source src="assets/media/Actividad 5 - Video Explicativo Trello.mp4" type="video/mp4" />
             Tu navegador no soporta la reproducción de video.

@@ -518,6 +518,196 @@ body {
 }
 
 /* ============================================================
+   PICTURE-IN-PICTURE (PIP) FLOATING MINI-PLAYER
+   ============================================================ */
+.pip-header {
+  display: none;
+}
+
+/* El panel en modo PiP se vuelve COMPLETAMENTE flotante fuera del flujo flex */
+.panel#panel-video.pip-active {
+  position: fixed !important;
+  bottom: 1.5rem !important;
+  right: 1.5rem !important;
+  width: 340px !important;
+  height: 191px !important;
+  max-width: calc(100vw - 2rem) !important;
+  z-index: 99999 !important; /* Superpuesto por encima de todo */
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  flex: none !important; /* Cero impacto en el flex de las otras pestañas */
+  transform: none !important;
+  animation: popInPiP 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  pointer-events: all !important;
+}
+
+.panel#panel-video.pip-active .video-panel-inner {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: block !important;
+}
+
+.panel#panel-video.pip-active .panel-topbar {
+  display: none !important;
+}
+
+.panel#panel-video.pip-active .video-wrapper {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 14px !important;
+  border: 2px solid rgba(167, 139, 250, 0.85) !important;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(124, 58, 237, 0.5) !important;
+  overflow: hidden !important;
+  background: #000 !important;
+  transition: transform 0.25s var(--ease-spring), box-shadow 0.25s;
+}
+
+.panel#panel-video.pip-active .video-wrapper:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: rgba(0, 242, 254, 0.95) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 242, 254, 0.45) !important;
+}
+
+@keyframes popInPiP {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.panel#panel-video.pip-active .pip-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 0.45rem 0.75rem;
+  background: linear-gradient(180deg, rgba(12, 10, 30, 0.95) 0%, rgba(12, 10, 30, 0) 100%);
+  z-index: 20;
+  pointer-events: all;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease-smooth);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.panel#panel-video.pip-active:hover .pip-header,
+.panel#panel-video.pip-active.is-dragging .pip-header {
+  opacity: 1;
+}
+
+.panel#panel-video.pip-active.is-dragging {
+  cursor: grabbing !important;
+  transition: none !important;
+}
+
+.panel#panel-video.pip-active.is-dragging .pip-header {
+  cursor: grabbing !important;
+}
+
+.panel#panel-video.pip-active.is-dragging .video-wrapper {
+  transition: none !important;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.95), 0 0 38px rgba(0, 242, 254, 0.6) !important;
+  border-color: rgba(0, 242, 254, 1) !important;
+}
+
+.pip-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: grab;
+}
+
+.pip-drag-handle {
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.pip-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  cursor: pointer;
+  user-select: none;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.pip-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulseDot 1.5s infinite;
+}
+
+.pip-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pip-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pip-btn:hover {
+  background: rgba(167, 139, 250, 0.6);
+  transform: scale(1.1);
+}
+
+.pip-close-btn:hover {
+  background: rgba(239, 68, 68, 0.7);
+  border-color: rgba(239, 68, 68, 0.9);
+}
+
+/* En modo PiP se oculta el botón central gigante */
+.panel#panel-video.pip-active .video-play-overlay {
+  display: none !important;
+}
+
+@media (max-width: 600px) {
+  .panel#panel-video.pip-active {
+    width: 230px !important;
+    height: 129px !important;
+    bottom: 1rem !important;
+    right: 1rem !important;
+  }
+}
+
+/* ============================================================
    TRELLO RETRO 80s CARD COMPONENT
    ============================================================ */
 .trello-panel-inner {
