@@ -6,6 +6,29 @@ const TABS = ['pdf', 'video', 'trello'];
 
 let isPipManualClosed = false;
 let aboutTrigger = null;
+let isPdfExpanded = false;
+
+/**
+ * Toggles the PDF viewer between normal and fullscreen-overlay mode.
+ */
+function toggleExpandPdf() {
+  const panel       = document.getElementById('panel-pdf');
+  const iconExpand  = document.getElementById('icon-expand');
+  const iconCollapse= document.getElementById('icon-collapse');
+  const label       = document.getElementById('label-expand-pdf');
+
+  isPdfExpanded = !isPdfExpanded;
+
+  panel.classList.toggle('pdf-expanded', isPdfExpanded);
+  iconExpand.style.display  = isPdfExpanded ? 'none'         : '';
+  iconCollapse.style.display= isPdfExpanded ? ''             : 'none';
+  label.textContent         = isPdfExpanded ? 'Reducir'      : 'Expandir';
+}
+
+// Allow closing expanded PDF with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && isPdfExpanded) toggleExpandPdf();
+});
 
 /**
  * Switches the active tab and its corresponding panel.

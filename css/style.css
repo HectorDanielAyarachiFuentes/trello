@@ -320,6 +320,45 @@ body {
   50% { opacity: 0.4; transform: scale(0.85); }
 }
 
+/* PDF Actions Group */
+.pdf-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* PDF Action Buttons (Expandir / Nueva pestaña) */
+.pdf-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.85rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary, #e2e8f0);
+  font-size: 0.80rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.pdf-action-btn:hover {
+  background: rgba(139, 92, 246, 0.3);
+  border-color: rgba(139, 92, 246, 0.6);
+  color: #e9d5ff;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
+}
+
+.pdf-action-btn:active {
+  transform: scale(0.97);
+}
+
 /* Download PDF Button */
 .download-btn {
   display: inline-flex;
@@ -345,6 +384,25 @@ body {
 
 .download-btn:active {
   transform: scale(0.97);
+}
+
+/* PDF Expanded State */
+#panel-pdf.pdf-expanded {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+}
+
+#panel-pdf.pdf-expanded .panel-inner {
+  height: 100vh;
+  border-radius: 0;
+}
+
+#panel-pdf.pdf-expanded .embed-wrapper {
+  border-radius: 0;
 }
 
 /* ============================================================
