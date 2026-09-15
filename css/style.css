@@ -333,30 +333,34 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.42rem 0.85rem;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-primary, #e2e8f0);
+  padding: 0.45rem 0.85rem;
+  background: #f3f6f8;
+  color: #3f5870;
   font-size: 0.80rem;
   font-weight: 600;
   font-family: inherit;
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-sm);
+  border: 1px solid #dce5eb;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   flex-shrink: 0;
   white-space: nowrap;
 }
 
+.pdf-action-btn svg {
+  stroke: currentColor;
+}
+
 .pdf-action-btn:hover {
-  background: rgba(139, 92, 246, 0.3);
-  border-color: rgba(139, 92, 246, 0.6);
-  color: #e9d5ff;
-  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
+  background: #e8f0f2;
+  border-color: #98d3cd;
+  color: #075d67;
 }
 
 .pdf-action-btn:active {
-  transform: scale(0.97);
+  background: #d9f0ee;
+  transform: scale(0.98);
 }
 
 /* Download PDF Button */
@@ -1357,6 +1361,21 @@ html, body {
   border-radius: 6px;
 }
 .download-btn:hover { background: #066974; box-shadow: none; }
+
+.pdf-action-btn {
+  background: #f3f6f8;
+  color: #3f5870;
+  border: 1px solid #dce5eb;
+  border-radius: 6px;
+}
+.pdf-action-btn:hover {
+  background: #e8f0f2;
+  border-color: #98d3cd;
+  color: #075d67;
+}
+.pdf-action-btn:active {
+  background: #d9f0ee;
+}
 
 .embed-wrapper { border-color: #cbd8e1; background: #f5f7f9; box-shadow: none; }
 .video-wrapper { background: #17283c; }
